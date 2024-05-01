@@ -10,9 +10,8 @@ public class CastMagic : MonoBehaviour
 {
     public GameObject lumos;
     public Transform spawnPoint;
-    public Material materialCasting;
-    public Material materialCastingOff;
-    public GameObject ChangeMaterialObj;
+    //public GameObject ChangeMaterialObj;
+    public GameObject Efeito;
     public bool casting = false;
 
     //reconhecer voz
@@ -49,10 +48,11 @@ public class CastMagic : MonoBehaviour
 
 
 
-        var meshRenderer = ChangeMaterialObj.GetComponent<MeshRenderer>();
-        var materialsCopy = meshRenderer.materials;
-        materialsCopy[0] = materialCasting;
-        meshRenderer.materials = materialsCopy;
+        //var meshRenderer = ChangeMaterialObj.GetComponent<MeshRenderer>();
+        //var materialsCopy = meshRenderer.materials;
+        //materialsCopy[0] = materialCasting;
+        //meshRenderer.materials = materialsCopy;
+        Efeito.SetActive(true);
     }
 
     public void CastingOff()
@@ -63,20 +63,23 @@ public class CastMagic : MonoBehaviour
 
 
 
-        var meshRenderer = ChangeMaterialObj.GetComponent<MeshRenderer>();
-        var materialsCopy = meshRenderer.materials;
-        materialsCopy[0] = materialCastingOff;
-        meshRenderer.materials = materialsCopy;
+        //var meshRenderer = ChangeMaterialObj.GetComponent<MeshRenderer>();
+        //var materialsCopy = meshRenderer.materials;
+        //materialsCopy[0] = materialCastingOff;
+        //meshRenderer.materials = materialsCopy;
+        Efeito.SetActive(false);
     }
 
     public void Lumos() 
     {
         lumos.SetActive(true);
+        CastingOff();
     }
 
 
     public void Nox()
     {
         lumos.SetActive(false);
+        CastingOff();
     }
 }
