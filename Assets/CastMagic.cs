@@ -123,10 +123,20 @@ public class CastMagic : MonoBehaviour
             Efeito = spawnBullet;
             oldEfeito.transform.SetParent(null);
 
+            var componentNovo = oldEfeito.AddComponent<Movimento_MagiaBasica>();
+            componentNovo.startPoint = oldEfeito.transform.position;
+            componentNovo.endPoint = closestEnemy.transform.position;
+
+            float distanceToWalk = 3f;
+            // Obtém a direção atual do objeto
+            Vector3 forwardDirection = oldEfeito.transform.forward;
+            // Calcula a nova posição após andar a distância desejada
+            Vector3 newPosition = oldEfeito.transform.position + forwardDirection * distanceToWalk;
+            componentNovo.controlPoint = newPosition;
 
             //firespeed = 20f;
-            oldEfeito.transform.LookAt(closestEnemy.transform);
-            oldEfeito.GetComponent<Rigidbody>().velocity = oldEfeito.transform.forward * 20f;
+            //oldEfeito.transform.LookAt(closestEnemy.transform);
+            //oldEfeito.GetComponent<Rigidbody>().velocity = oldEfeito.transform.forward * 20f;
             Destroy(oldEfeito, 5);
 
             Nox();
