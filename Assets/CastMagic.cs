@@ -12,6 +12,7 @@ public class CastMagic : MonoBehaviour
     public Transform spawnPoint;
     //public GameObject ChangeMaterialObj;
     public GameObject Efeito;
+    public GameObject MagiaBasica;
     public bool casting = false;
 
     //reconhecer voz
@@ -22,7 +23,10 @@ public class CastMagic : MonoBehaviour
     void Start()
     {
         actions.Add("Lúmus", Lumos);
+        actions.Add("Lumôs", Lumos);
+
         actions.Add("Nóx", Nox);
+        actions.Add("Nóquis", Nox);
 
         keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += ReconizedSpeech;
@@ -55,6 +59,21 @@ public class CastMagic : MonoBehaviour
         Efeito.SetActive(true);
     }
 
+    public void soltouOTrigger() 
+    {
+        if (casting == true)
+        {
+            var velocidade = Efeito.transform.parent.gameObject.GetComponent<medidorDeVelocidade>().velocidade;
+            Debug.Log("Velocidade Final: " + velocidade.magnitude);
+            if (velocidade.magnitude > 7f)
+            {
+                InvokeMagiaBasica();
+                return;
+            }
+        }
+        CastingOff();
+    }
+
     public void CastingOff()
     {
 
@@ -68,6 +87,51 @@ public class CastMagic : MonoBehaviour
         //materialsCopy[0] = materialCastingOff;
         //meshRenderer.materials = materialsCopy;
         Efeito.SetActive(false);
+    }
+    GameObject GetClosestEnemy(GameObject[] enemies)
+    {
+        GameObject tMin = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
+        foreach (GameObject t in enemies)
+        {
+            float dist = Vector3.Distance(t.transform.position, currentPos);
+            if (dist < minDist)
+            {
+                tMin = t;
+                minDist = dist;
+            }
+        }
+        return tMin;
+    }
+
+    public void InvokeMagiaBasica() 
+    {
+        //filtrar para pegar apenas inimigos no campo de visão
+        var alvos = GameObject.FindGameObjectsWithTag("Alvo");
+        if (alvos.Length > 0) 
+        {
+            var closestEnemy = GetClosestEnemy(alvos);
+
+            var oldEfeito = Efeito;
+
+            //na verdade a nova bala fica na varinha e a antiga vaza;
+            GameObject spawnBullet = Instantiate(MagiaBasica);
+            spawnBullet.transform.SetParent(oldEfeito.transform.parent);
+            spawnBullet.transform.localPosition = oldEfeito.transform.localPosition;
+
+            Efeito = spawnBullet;
+            oldEfeito.transform.SetParent(null);
+
+
+            //firespeed = 20f;
+            oldEfeito.transform.LookAt(closestEnemy.transform);
+            oldEfeito.GetComponent<Rigidbody>().velocity = oldEfeito.transform.forward * 20f;
+            Destroy(oldEfeito, 5);
+
+            Nox();
+        }
+
     }
 
     public void Lumos() 
