@@ -11630,11 +11630,42 @@ PrefabInstance:
       propertyPath: m_InteractionManager
       value: 
       objectReference: {fileID: 1547727718}
+    - target: {fileID: 6363210387634998477, guid: 0798bce653e119745b54e7da5237a912,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363210387634998477, guid: 0798bce653e119745b54e7da5237a912,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363210387634998477, guid: 0798bce653e119745b54e7da5237a912,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363210387634998477, guid: 0798bce653e119745b54e7da5237a912,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363210387634998477, guid: 0798bce653e119745b54e7da5237a912,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7325013690964432502, guid: 0798bce653e119745b54e7da5237a912,
         type: 3}
       propertyPath: m_Name
       value: Varinha
       objectReference: {fileID: 0}
+    - target: {fileID: 7325013690964432503, guid: 0798bce653e119745b54e7da5237a912,
+        type: 3}
+      propertyPath: BombardaObj
+      value: 
+      objectReference: {fileID: 5540485430153225868, guid: 737c3de3717c28d419fd3ebe126d4e6f,
+        type: 3}
     - target: {fileID: 7495017549748606445, guid: 0798bce653e119745b54e7da5237a912,
         type: 3}
       propertyPath: m_RootOrder

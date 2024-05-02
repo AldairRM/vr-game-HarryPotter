@@ -12,6 +12,7 @@ public class CastMagic : MonoBehaviour
     public Transform spawnPoint;
     //public GameObject ChangeMaterialObj;
     public GameObject Efeito;
+    public GameObject BombardaObj;
     public GameObject MagiaBasica;
     public bool casting = false;
 
@@ -23,10 +24,8 @@ public class CastMagic : MonoBehaviour
     void Start()
     {
         actions.Add("Lúmus", Lumos);
-        actions.Add("Lumôs", Lumos);
-
         actions.Add("Nóx", Nox);
-        actions.Add("Nóquis", Nox);
+        actions.Add("Bombárda", Bombarda);
 
         keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += ReconizedSpeech;
@@ -134,14 +133,25 @@ public class CastMagic : MonoBehaviour
             Vector3 newPosition = oldEfeito.transform.position + forwardDirection * distanceToWalk;
             componentNovo.controlPoint = newPosition;
 
-            //firespeed = 20f;
-            //oldEfeito.transform.LookAt(closestEnemy.transform);
-            //oldEfeito.GetComponent<Rigidbody>().velocity = oldEfeito.transform.forward * 20f;
             Destroy(oldEfeito, 5);
 
             Nox();
         }
 
+    }
+
+    public void Bombarda() 
+    {
+
+        var firespeed = 20f;
+
+        GameObject spawnBullet = Instantiate(BombardaObj);
+        spawnBullet.transform.position = spawnPoint.transform.position;
+        spawnBullet.transform.rotation = spawnPoint.transform.rotation;
+        spawnBullet.GetComponent<Rigidbody>().velocity = spawnBullet.transform.forward * firespeed;
+
+        Destroy(spawnBullet, 5);
+        Nox();
     }
 
     public void Lumos() 
