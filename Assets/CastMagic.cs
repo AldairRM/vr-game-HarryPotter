@@ -101,7 +101,7 @@ public class CastMagic : MonoBehaviour
     {
         GameObject tMin = null;
         float minDist = Mathf.Infinity;
-        Vector3 currentPos = transform.position;
+        Vector3 currentPos = spawnPoint.position;
         foreach (GameObject t in enemies)
         {
             float dist = Vector3.Distance(t.transform.position, currentPos);
