@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Monster : MonoBehaviour
 {
@@ -47,7 +48,13 @@ public class Monster : MonoBehaviour
     {
         if (podeAndar)
         {
+            animator.SetBool("running", true);
             //move em direção ao player
+            this.GetComponent<NavMeshAgent>().SetDestination(protagonista.transform.position);
+        }
+        else
+        {
+            animator.SetBool("running", false);
         }
     }
 
