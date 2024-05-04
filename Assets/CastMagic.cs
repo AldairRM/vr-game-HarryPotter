@@ -16,6 +16,13 @@ public class CastMagic : MonoBehaviour
     public GameObject MagiaBasica;
     public bool casting = false;
 
+    [SerializeField]
+    private AudioSource audio;
+    [SerializeField]
+    private AudioClip AudioLumos;
+    [SerializeField]
+    private AudioClip AudioNox;
+
     //reconhecer voz
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> actions = new Dictionary<string, Action>();
@@ -24,8 +31,11 @@ public class CastMagic : MonoBehaviour
     void Start()
     {
         actions.Add("Lúmus", Lumos);
+        actions.Add("lumôs", Lumos);
         actions.Add("Nóx", Nox);
+        actions.Add("Nóquiz", Nox);
         actions.Add("Bombárda", Bombarda);
+        actions.Add("Bombarda", Bombarda);
 
         keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += ReconizedSpeech;
@@ -135,8 +145,9 @@ public class CastMagic : MonoBehaviour
 
             Destroy(oldEfeito, 5);
 
-            Nox();
+            lumos.transform.parent.GetComponent<Animator>().Play("Exit");
         }
+        CastingOff();
 
     }
 
@@ -151,19 +162,27 @@ public class CastMagic : MonoBehaviour
         spawnBullet.GetComponent<Rigidbody>().velocity = spawnBullet.transform.forward * firespeed;
 
         Destroy(spawnBullet, 5);
-        Nox();
+
+        lumos.transform.parent.GetComponent<Animator>().Play("Exit");
+        CastingOff();
     }
 
-    public void Lumos() 
+    public void Lumos()
     {
+        audio.clip = AudioLumos;
+        audio.Play();
         lumos.SetActive(true);
+        lumos.transform.parent.GetComponent<Animator>().Play("Appear");
         CastingOff();
     }
 
 
     public void Nox()
     {
-        lumos.SetActive(false);
+        audio.clip = AudioNox;
+        //lumos.SetActive(false);
+        audio.Play();
+        lumos.transform.parent.GetComponent<Animator>().Play("Disappear");
         CastingOff();
     }
 }
