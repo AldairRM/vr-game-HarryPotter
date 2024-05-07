@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Movimento_MagiaBasica : MonoBehaviour
 {
+
+    public GameObject impacto;
     public Vector3 startPoint; // Ponto de partida
-    public Vector3 endPoint; // Destino
+    public Transform endPoint; // Destino
     public Vector3 controlPoint; // Ponto de controle para a curva de Bezier
     public float speed = 20f; // Velocidade de movimento
     public Rigidbody rb; // Rigidbody do objeto
@@ -24,6 +26,9 @@ public class Movimento_MagiaBasica : MonoBehaviour
     {
         if (atingiu) 
         {
+            var novoImpacto = Instantiate(impacto);
+            novoImpacto.transform.position = this.transform.position;
+            Destroy(this.gameObject);
             return;
         }
         if (controlPoint == Vector3.zero) 
@@ -32,16 +37,17 @@ public class Movimento_MagiaBasica : MonoBehaviour
         }
         // Calculando a nova posição ao longo da trajetória curva
         float step = speed * Time.fixedDeltaTime;
-        Vector3 newPos = Vector3.Lerp(transform.position, endPoint, step);
-        newPos.y = BezierCurve(startPoint.y, controlPoint.y, endPoint.y, (newPos.x - startPoint.x) / (endPoint.x - startPoint.x));
+        Vector3 newPos = Vector3.Lerp(transform.position, endPoint.position, step);
+        newPos.y = BezierCurve(startPoint.y, controlPoint.y, endPoint.position.y, (newPos.x - startPoint.x) / (endPoint.position.x - startPoint.x));
 
         // Atualizando a posição do objeto
         rb.MovePosition(newPos);
 
         // Se chegou perto o suficiente do ponto final, parar o movimento
-        if (Vector3.Distance(transform.position, endPoint) < 0.1f)
+        if (Vector3.Distance(transform.position, endPoint.position) < 0.35f)
         {
             rb.velocity = Vector3.zero;
+            atingiu = true;
         }
     }
 

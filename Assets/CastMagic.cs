@@ -14,6 +14,7 @@ public class CastMagic : MonoBehaviour
     public GameObject Efeito;
     public GameObject BombardaObj;
     public GameObject MagiaBasica;
+    public GameObject MagiaBasicaImpacto;
     public bool casting = false;
 
     [SerializeField]
@@ -134,7 +135,8 @@ public class CastMagic : MonoBehaviour
 
             var componentNovo = oldEfeito.AddComponent<Movimento_MagiaBasica>();
             componentNovo.startPoint = oldEfeito.transform.position;
-            componentNovo.endPoint = closestEnemy.transform.position;
+            componentNovo.endPoint = closestEnemy.transform;
+            componentNovo.impacto = Instantiate(MagiaBasicaImpacto);
 
             float distanceToWalk = 3f;
             // Obtém a direção atual do objeto
